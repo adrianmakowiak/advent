@@ -1,16 +1,16 @@
 def main():
     with open('data.txt', 'r') as f:
-        depth = 0
-        horizontal = 0
+        depth, horizontal, aim = 0, 0, 0
         for line in f:
             current = line.strip().split()
             cmd, value = [current[0], int(current[1])]
             if cmd == 'forward':
                 horizontal += value
+                depth += aim * value
             elif cmd == 'up':
-                depth -= value
+                aim -= value
             elif cmd == 'down':
-                depth += value
+                aim += value
         print(depth * horizontal)
 
 
