@@ -1,6 +1,7 @@
 class Board:
     matrix = []
     bingo = []
+    solved = False
 
     def __init__(self, rows):
         numbers = [row.split() for row in rows]
@@ -23,6 +24,7 @@ class Board:
                 won = False
                 break
         if won:
+            self.solved = True
             return True
         won = True
         for i in range(5):
@@ -30,6 +32,7 @@ class Board:
                 won = False
                 return False
         if won:
+            self.solved = True
             return True
 
     def calculate_sum(self):
@@ -57,11 +60,11 @@ def main():
                 rows.append(line.strip())
         for n in numbers:
             for b in boards:
-                if b.mark_number(n):
+                if not b.solved and b.mark_number(n):
                     sum_result = b.calculate_sum()
                     result = sum_result * int(n)
-                    print(result)
-                    return
+
+        print(result)
 
 
 if __name__ == '__main__':
