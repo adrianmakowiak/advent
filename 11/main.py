@@ -4,13 +4,16 @@ import math
 
 def count_flashes(matrix):
     flashes_in_step = 0
+    all_flashed = True
     for i, row in enumerate(matrix):
         for j, value in enumerate(row):
             if matrix[i][j]['flashed']:
                 matrix[i][j]['flashed'] = False
                 flashes_in_step += 1
                 matrix[i][j]['level'] = 0
-    return flashes_in_step
+            else:
+                all_flashed = False
+    return flashes_in_step, all_flashed
 
 
 def increase_by_one(matrix):
@@ -126,10 +129,16 @@ def main():
             row_numbers = [{'level': int(n), 'flashed': False} for n in row]
             matrix.append(row_numbers)
         flash_counter = 0
+        iteration = 0
         while True:
+            iteration += 1
             increase_by_one(matrix)
             flash(matrix)
-            flash_counter += count_flashes(matrix)
+            flashes, did_all = count_flashes(matrix)
+            flash_counter += flashes
+            if did_all:
+                print(f'all flashed: {iteration}')
+                break
             for row in matrix:
                 string = ''
                 for value in row:
